@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439350342558",
+    "project_id": "sistem-informasi-cagar-budaya",
+    "storage_bucket": "sistem-informasi-cagar-budaya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439350342558:android:9de2414fd37caa49c2dc8f",
+        "android_client_info": {
+          "package_name": "com.example.sisteminformasicagarbudaya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439350342558-08q4bb9lkpqcgsb7cavfosl03g282ub8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCILHU_Tq4hLzxbDPpNUaurGLr0nowvlpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439350342558-08q4bb9lkpqcgsb7cavfosl03g282ub8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
