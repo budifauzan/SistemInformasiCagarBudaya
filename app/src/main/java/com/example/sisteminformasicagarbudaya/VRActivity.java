@@ -7,25 +7,38 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 public class VRActivity extends Activity {
     private WebView webView;
+    private String linkVR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_v_r);
+        initiateViews();
+        setViewFromIntent();
+        setWebView();
+    }
 
+    private void initiateViews() {
         webView = findViewById(R.id.wv_tampilan_vr);
-        webView.loadUrl("https://odisuklam.github.io/pages/candi-badut/sisi-kanan-dalam.html");
+    }
 
+    private void setViewFromIntent() {
+        Intent intent = getIntent();
+        linkVR = intent.getStringExtra("linkVR");
+    }
+
+    private void setWebView() {
         // Supaya bisa menjalankan JavaScript
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
         // Supaya tidak keluar dari aplikasi saat mengunjungi URL yang sudah ditentukan
         webView.setWebViewClient(new MyWebViewClient());
+
+        webView.loadUrl(linkVR);
     }
 
     private class MyWebViewClient extends WebViewClient {

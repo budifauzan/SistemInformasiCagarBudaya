@@ -4,26 +4,29 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class CagarBudayaModel implements Parcelable {
-    private String docId, nama, deskripsi, jumlahView, thumbnailUrl, latitude, longitude;
+    private String docId, nama, detail, thumbnailUrl, latitude, longitude, linkVR;
+    private int jumlahView;
 
-    public CagarBudayaModel(String nama, String deskripsi, String jumlahView,
-                            String thumbnailUrl, String latitude, String longitude) {
+    public CagarBudayaModel(String nama, String detail, int jumlahView,
+                            String thumbnailUrl, String latitude, String longitude, String linkVR) {
         this.nama = nama;
-        this.deskripsi = deskripsi;
+        this.detail = detail;
         this.jumlahView = jumlahView;
         this.thumbnailUrl = thumbnailUrl;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.linkVR = linkVR;
     }
 
     protected CagarBudayaModel(Parcel in) {
         docId = in.readString();
         nama = in.readString();
-        deskripsi = in.readString();
-        jumlahView = in.readString();
+        detail = in.readString();
+        jumlahView = in.readInt();
         thumbnailUrl = in.readString();
         latitude = in.readString();
         longitude = in.readString();
+        linkVR = in.readString();
     }
 
     public static final Creator<CagarBudayaModel> CREATOR = new Creator<CagarBudayaModel>() {
@@ -50,23 +53,15 @@ public class CagarBudayaModel implements Parcelable {
         return nama;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public String getDetail() {
+        return detail;
     }
 
-    public String getDeskripsi() {
-        return deskripsi;
-    }
-
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
-
-    public String getJumlahView() {
+    public int getJumlahView() {
         return jumlahView;
     }
 
-    public void setJumlahView(String jumlahView) {
+    public void setJumlahView(int jumlahView) {
         this.jumlahView = jumlahView;
     }
 
@@ -74,24 +69,16 @@ public class CagarBudayaModel implements Parcelable {
         return thumbnailUrl;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
     public String getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
     }
 
     public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public String getLinkVR() {
+        return linkVR;
     }
 
     @Override
@@ -103,10 +90,11 @@ public class CagarBudayaModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(docId);
         dest.writeString(nama);
-        dest.writeString(deskripsi);
-        dest.writeString(jumlahView);
+        dest.writeString(detail);
+        dest.writeInt(jumlahView);
         dest.writeString(thumbnailUrl);
         dest.writeString(latitude);
         dest.writeString(longitude);
+        dest.writeString(linkVR);
     }
 }

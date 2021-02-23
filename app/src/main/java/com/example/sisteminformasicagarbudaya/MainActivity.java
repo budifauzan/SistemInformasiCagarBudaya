@@ -1,13 +1,25 @@
 package com.example.sisteminformasicagarbudaya;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ConstraintLayout clNavbarMenu, clNavbarFilter, clFilterContainer;
+    private ConstraintLayout clNavbarFilter, clFilterContainer;
+    private TextView tvNavTitle;
+    private ProgressDialog progressDialog;
+    private RecyclerView rvCagarBudaya;
+    private CagarBudayaAdapter cagarBudayaAdapter;
+
+    private ArrayList<CagarBudayaModel> cagarBudayaModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,21 +27,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initiateViews();
         setOnClick();
+        setRecyclerView();
     }
 
     private void initiateViews() {
-        clNavbarMenu = findViewById(R.id.cl_navbar_menu);
         clNavbarFilter = findViewById(R.id.cl_navbar_filter);
+        clNavbarFilter.setVisibility(View.VISIBLE);
         clFilterContainer = findViewById(R.id.cl_main_filter_container);
+        tvNavTitle = findViewById(R.id.tv_navbar_title);
+        tvNavTitle.setText("Daftar Cagar Budaya");
+        rvCagarBudaya = findViewById(R.id.rv_main_cagar_budaya);
+        progressDialog = new ProgressDialog(this);
     }
 
     private void setOnClick() {
-        clNavbarMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         clNavbarFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,5 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setRecyclerView() {
+        cagarBudayaModels = new ArrayList<>();
+        cagarBudayaAdapter = new CagarBudayaAdapter(this, cagarBudayaModels);
+        rvCagarBudaya.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvCagarBudaya.setAdapter(cagarBudayaAdapter);
     }
 }

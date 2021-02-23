@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminMainActivity">
+
+    <EditText
+        android:id="@+id/edt_admin_main_nama_cagar"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Nama cagar budaya"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_admin_main_detail"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Detail"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_nama_cagar"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_nama_cagar"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_nama_cagar" />
+
+    <EditText
+        android:id="@+id/edt_admin_main_latitude"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Latitude"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_detail"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_detail"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_detail" />
+
+    <EditText
+        android:id="@+id/edt_admin_main_longitude"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Longitude"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_latitude"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_latitude"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_latitude" />
+
+    <EditText
+        android:id="@+id/edt_admin_main_link_vr"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Link VR"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_longitude"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_longitude"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_longitude" />
+
+    <Button
+        android:id="@+id/btn_admin_main_upload_thumbnail"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Upload Thumbnail"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_link_vr"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_link_vr"
+        app:layout_constraintTop_toBottomOf="@+id/tv_admin_main_nama_file" />
+
+    <TextView
+        android:id="@+id/tv_admin_main_nama_file"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Nama file"
+        app:layout_constraintStart_toStartOf="@+id/btn_admin_main_upload_thumbnail"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_link_vr" />
+
+    <Button
+        android:id="@+id/btn_admin_main_tambahkan"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Tambahkan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_admin_main_upload_thumbnail"
+        app:layout_constraintStart_toStartOf="@+id/btn_admin_main_upload_thumbnail" />
+</androidx.constraintlayout.widget.ConstraintLayout>

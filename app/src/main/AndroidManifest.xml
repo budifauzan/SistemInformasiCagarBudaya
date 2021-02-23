@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemInformasiCagarBudaya">
-        <activity android:name=".DetailCagarActivity"></activity>
+        <activity android:name=".AdminMainActivity"></activity>
+        <activity android:name=".DetailCagarActivity" />
         <activity
             android:name=".VRActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
