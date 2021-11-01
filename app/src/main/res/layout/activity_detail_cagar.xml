@@ -38,7 +38,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_detail_cagar_masuk_mode_vr"
@@ -54,12 +53,14 @@
                 android:id="@+id/tv_detail_cagar_detail"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in nibh ornare massa scelerisque pellentesque a id ante. Vivamus placerat, mauris id scelerisque bibendum, turpis quam rhoncus lectus, vel sodales tellus magna sed justo. Morbi sit amet lectus diam. Duis tincidunt dui et sem placerat imperdiet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut luctus felis a ante rutrum, vel consequat erat pellentesque. Sed imperdiet mollis tellus, et finibus risus tempus et. Nunc pulvinar, diam sed pharetra sagittis, lectus dui fermentum est, in pellentesque lectus ante non eros. Nam imperdiet purus a dolor fringilla, sit amet facilisis ante pharetra. Pellentesque elementum mattis nunc non egestas. Pellentesque tincidunt lobortis viverra. Etiam nunc erat, ultrices eu ligula ac, facilisis aliquam enim. Suspendisse venenatis vestibulum quam eget porta. Nam gravida dictum risus eu ultrices. Suspendisse potenti.  Pellentesque tincidunt nisi a imperdiet luctus. Nam sed nisi eu libero ultricies scelerisque. Etiam egestas finibus massa vitae fringilla. Aliquam imperdiet dictum neque eget elementum. Integer varius augue eu quam auctor iaculis. Duis facilisis sed eros vel vehicula. Suspendisse lacinia tellus id velit sagittis, a lacinia quam fringilla. Maecenas bibendum arcu non mi facilisis semper.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Mauris faucibus mattis pellentesque. Sed tincidunt semper luctus. Vestibulum tellus erat, mattis sed sodales a, finibus eu lacus. Nam sodales maximus urna quis lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed eu risus non nisl efficitur sodales at vel sapien. Aliquam tincidunt orci lectus, eu luctus nibh varius id.  Duis varius porta tellus in viverra. Pellentesque blandit euismod faucibus. Sed faucibus convallis nibh. Fusce lacinia vitae lectus quis viverra. Nam ultricies facilisis quam a luctus. Proin maximus ex nunc, ut efficitur neque consectetur eget. Donec non faucibus erat, in imperdiet sapien. Nam malesuada at tortor vel elementum. Sed in aliquet felis, non venenatis felis. Curabitur vulputate scelerisque leo nec bibendum. Aenean bibendum lorem et auctor semper. Nullam interdum vel nulla sit amet fringilla. Maecenas et sollicitudin est, sit amet mattis enim. Sed quis mauris dignissim, imperdiet elit ut, dapibus felis.  Quisque leo dui, egestas eu arcu hendrerit, posuere lacinia sem. Pellentesque mi elit, dapibus a efficitur a, ornare luctus arcu. Vestibulum nec faucibus mauris. Quisque sit amet faucibus quam. Nam vitae rutrum lacus. Phasellus nisi magna, convallis tincidunt rutrum in, convallis sed dui. Nam at tellus non libero aliquam porta. Sed ultrices, sapien nec varius semper, quam dolor euismod augue, non consequat lacus nunc id lorem. Aliquam eros turpis, auctor ac tempor eleifend, fermentum ut eros. Integer iaculis a odio et cursus. Sed in tortor at erat eleifend venenatis in a lorem. Proin cursus tristique elementum. Cras ultrices enim orci, non semper turpis commodo ut. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

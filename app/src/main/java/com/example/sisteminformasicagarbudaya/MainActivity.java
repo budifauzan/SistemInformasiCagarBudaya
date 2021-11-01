@@ -3,6 +3,7 @@ package com.example.sisteminformasicagarbudaya;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
     private ConstraintLayout clNavbarFilter, clFilterContainer;
     private TextView tvNavTitle;
+    private ImageView imgNavBarFilter;
     private ProgressDialog progressDialog;
     private RecyclerView rvCagarBudaya;
     private CagarBudayaAdapter cagarBudayaAdapter;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private void initiateViews() {
         clNavbarFilter = findViewById(R.id.cl_navbar_filter);
         clNavbarFilter.setVisibility(View.VISIBLE);
+        imgNavBarFilter = findViewById(R.id.img_navbar_filter);
+        imgNavBarFilter.setImageResource(R.drawable.ic_baseline_filter_alt_24);
         clFilterContainer = findViewById(R.id.cl_main_filter_container);
         tvNavTitle = findViewById(R.id.tv_navbar_title);
         tvNavTitle.setText("Daftar Cagar Budaya");

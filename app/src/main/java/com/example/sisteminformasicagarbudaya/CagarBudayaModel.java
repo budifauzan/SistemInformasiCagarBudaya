@@ -3,6 +3,8 @@ package com.example.sisteminformasicagarbudaya;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.Exclude;
+
 public class CagarBudayaModel implements Parcelable {
     private String docId, nama, detail, thumbnailUrl, latitude, longitude, linkVR;
     private int jumlahView;
@@ -41,6 +43,7 @@ public class CagarBudayaModel implements Parcelable {
         }
     };
 
+    @Exclude
     public String getDocId() {
         return docId;
     }

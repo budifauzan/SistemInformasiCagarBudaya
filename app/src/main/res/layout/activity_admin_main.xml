@@ -12,11 +12,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="Nama cagar budaya"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +31,7 @@
         android:ems="10"
         android:hint="Detail"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_nama_cagar"
         app:layout_constraintStart_toStartOf="@+id/edt_admin_main_nama_cagar"
         app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_nama_cagar" />
@@ -43,6 +45,7 @@
         android:ems="10"
         android:hint="Latitude"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_detail"
         app:layout_constraintStart_toStartOf="@+id/edt_admin_main_detail"
         app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_detail" />
@@ -56,6 +59,7 @@
         android:ems="10"
         android:hint="Longitude"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_latitude"
         app:layout_constraintStart_toStartOf="@+id/edt_admin_main_latitude"
         app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_latitude" />
@@ -69,6 +73,7 @@
         android:ems="10"
         android:hint="Link VR"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_longitude"
         app:layout_constraintStart_toStartOf="@+id/edt_admin_main_longitude"
         app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_longitude" />
@@ -105,4 +110,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_admin_main_upload_thumbnail"
         app:layout_constraintStart_toStartOf="@+id/btn_admin_main_upload_thumbnail" />
+
+    <ImageView
+        android:id="@+id/img_admin_main_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="h,16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_admin_main_upload_thumbnail"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 </androidx.constraintlayout.widget.ConstraintLayout>

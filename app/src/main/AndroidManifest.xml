@@ -11,17 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemInformasiCagarBudaya">
-        <activity android:name=".AdminMainActivity"></activity>
-        <activity android:name=".DetailCagarActivity" />
-        <activity
-            android:name=".VRActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".AdminMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".DetailCagarActivity" />
+        <activity
+            android:name=".VRActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

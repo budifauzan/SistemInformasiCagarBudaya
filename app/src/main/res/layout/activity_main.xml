@@ -14,18 +14,6 @@
         android:layout_height="@dimen/navbar_height" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_main_cagar_budaya"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/background_color"
-        android:paddingHorizontal="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/navbar"
-        tools:listitem="@layout/card_cagar_budaya" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_main_filter_container"
         android:layout_width="0dp"
@@ -48,4 +36,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main_cagar_budaya"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navbar"
+        tools:listitem="@layout/card_cagar_budaya" />
 </androidx.constraintlayout.widget.ConstraintLayout>
