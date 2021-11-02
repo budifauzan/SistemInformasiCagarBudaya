@@ -11,17 +11,17 @@
         android:id="@+id/navbar"
         layout="@layout/nav_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/navbar_height" />
+        android:layout_height="@dimen/navbar_height"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_main_filter_container"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:background="#ffebee"
-        android:elevation="2dp"
+        android:background="@color/primary_dark"
         android:paddingHorizontal="8dp"
         android:visibility="gone"
+        android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/navbar">

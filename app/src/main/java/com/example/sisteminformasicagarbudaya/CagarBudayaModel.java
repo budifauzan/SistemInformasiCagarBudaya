@@ -9,6 +9,9 @@ public class CagarBudayaModel implements Parcelable {
     private String docId, nama, detail, thumbnailUrl, latitude, longitude, linkVR;
     private int jumlahView;
 
+    public CagarBudayaModel() {
+    }
+
     public CagarBudayaModel(String nama, String detail, int jumlahView,
                             String thumbnailUrl, String latitude, String longitude, String linkVR) {
         this.nama = nama;

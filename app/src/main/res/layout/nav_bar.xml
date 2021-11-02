@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary"
+    android:clipToPadding="false"
     android:elevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_navbar_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/navbar_height"
-        android:background="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

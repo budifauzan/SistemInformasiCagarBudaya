@@ -44,7 +44,7 @@ public class VRActivity extends Activity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if ("odisuklam.github.io".equals(Uri.parse(url).getHost())) {
+            if ("budifauzan.github.io".equals(Uri.parse(url).getHost())) {
                 // This is my website, so do not override; let my WebView load the page
                 return false;
             }

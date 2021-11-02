@@ -9,13 +9,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 
 public class DetailCagarActivity extends AppCompatActivity {
-    private ImageView imgThumbnail;
+    private ImageView imgThumbnail, imgNavBarBack;
     private TextView tvNavTitle, tvNamaCagar, tvDetail;
     private Button btnMasukModeVR, btnLokasiCagar;
+    private ConstraintLayout clNavBarBack;
+
     private CagarBudayaModel cagarBudayaModel;
 
     @Override
@@ -35,6 +38,10 @@ public class DetailCagarActivity extends AppCompatActivity {
         tvDetail = findViewById(R.id.tv_detail_cagar_detail);
         btnMasukModeVR = findViewById(R.id.btn_detail_cagar_masuk_mode_vr);
         btnLokasiCagar = findViewById(R.id.btn_detail_cagar_lokasi);
+        clNavBarBack = findViewById(R.id.cl_navbar_back);
+        clNavBarBack.setVisibility(View.VISIBLE);
+        imgNavBarBack = findViewById(R.id.img_navbar_back);
+        imgNavBarBack.setImageResource(R.drawable.ic_baseline_arrow_back_24);
     }
 
     private void setViewFromIntent() {
@@ -48,6 +55,13 @@ public class DetailCagarActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
+        clNavBarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnMasukModeVR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
