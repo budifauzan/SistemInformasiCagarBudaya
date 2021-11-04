@@ -1,8 +1,11 @@
 package com.example.sisteminformasicagarbudaya;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,9 +21,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -50,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CagarBudayaModel> cagarBudayaModels;
     private boolean doubleBackToExitPressedOnce = false;
     private boolean firstClick = true;
-    private int selection = 0;
+    private int selected = 0;
+    private String userLat, userLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         customSpinner();
-        spnFilter.setSelection(selection);
+        spnFilter.setSelection(selected);
     }
 
     @Override
@@ -181,13 +188,13 @@ public class MainActivity extends AppCompatActivity {
                     firstClick = false;
                 } else if (position == 0) {
                     getDataCagar();
-                    selection = 0;
+                    selected = 0;
                 } else if (position == 1) {
-                    Toast.makeText(MainActivity.this, "Ini nanti urutkan berdasarkan lokasi terdekat", Toast.LENGTH_SHORT).show();
-                    selection = 1;
+                    getCurrentLocation();
+                    selected = 1;
                 } else {
                     getDataCagarBerdasarkanJumlahView();
-                    selection = 2;
+                    selected = 2;
                 }
             }
 
@@ -224,5 +231,27 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     }
                 });
+    }
+
+    private void getCurrentLocation() {
+        //Mengecek apakah izin untuk akses GPS sudah diberikan atau belum
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
+            FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedLocationProviderClient
+                    .getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                userLat = String.valueOf(location.getLatitude());
+                                userLong = String.valueOf(location.getLongitude());
+                                Toast.makeText(MainActivity.this, "Lat : " + userLat + " Long : " + userLong, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
     }
 }
