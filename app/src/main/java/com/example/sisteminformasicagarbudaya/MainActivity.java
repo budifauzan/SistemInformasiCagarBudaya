@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         setRecyclerView();
         customSpinner();
         getCurrentLocation();
-        getDataCagar("nama");
     }
 
     @Override
