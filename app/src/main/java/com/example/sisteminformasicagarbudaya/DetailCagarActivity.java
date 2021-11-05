@@ -55,6 +55,8 @@ public class DetailCagarActivity extends AppCompatActivity {
     }
 
     private void setViewFromIntent() {
+
+        // Mengambil data cagar dari cagarBudayaModel yang sudah dikirim dari MainActivity
         Intent intent = getIntent();
         cagarBudayaModel = intent.getParcelableExtra("cagarBudayaModel");
         if (cagarBudayaModel != null) {
@@ -83,6 +85,8 @@ public class DetailCagarActivity extends AppCompatActivity {
     }
 
     private void increaseJumlahView() {
+
+        // Menambahkan jumlahView dari cagarBudaya ke Firestore
         jumlahView++;
         DocumentReference cagarRef = firebaseFirestore.collection("CagarBudaya").document(docId);
         cagarRef.update("jumlahView", jumlahView)

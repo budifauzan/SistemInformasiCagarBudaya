@@ -36,11 +36,15 @@ public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.
     @Override
     public void onBindViewHolder(@NonNull CagarBudayaAdapter.ViewHolder holder, int position) {
         CagarBudayaModel cagarBudayaModel = models.get(position);
+
+        // Merubah view pada card sesuai dengan data dari tiap cagar
         holder.tvNama.setText(cagarBudayaModel.getNama());
         holder.tvJarak.setText(String.format("%,d", cagarBudayaModel.getJarakDariUser()) + "m");
         Glide.with(context).load(cagarBudayaModel.getThumbnailUrl()).into(holder.imgThumbnail);
         holder.tvJumlahView.setText(String.format("%,d", cagarBudayaModel.getJumlahView()) + " x dilihat");
         holder.clContainer.setOnClickListener(v -> {
+
+            // Berpindah ke detail cagar apabila dipilih
             Intent intent = new Intent(context, DetailCagarActivity.class);
             intent.putExtra("cagarBudayaModel", cagarBudayaModel);
             context.startActivity(intent);

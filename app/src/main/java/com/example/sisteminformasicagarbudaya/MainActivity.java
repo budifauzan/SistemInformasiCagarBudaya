@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Memuat ulang cagar budaya sesuai dengan filter yang dipilih sebelumnya
         if (selected == -1) {
             getDataCagar("nama");
         } else {
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        // Method agar user perlu menekan tombol back dua kali untuk keluar dari aplikasi
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -120,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
+
+        // Menampilkan atau menyembunyikan menu filter
         clNavbarFilter.setOnClickListener(v -> {
             if (clFilterContainer.getVisibility() == View.GONE) {
                 clFilterContainer.setVisibility(View.VISIBLE);
@@ -158,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         spnFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                // Agar aplikasi tidak memuat data cagar budaya pada saat pertama kali spinner disentuh
                 if (firstClick) {
                     firstClick = false;
                 } else if (position == 0) {
@@ -179,11 +187,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCurrentLocation() {
-        //Mengecek apakah izin untuk akses GPS sudah diberikan atau belum
+
+        // Mengecek apakah izin untuk akses GPS sudah diberikan atau belum
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // Meminta izin untuk akses GPS
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         } else {
+
+            // Mengambil lokasi dari user
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
             fusedLocationProviderClient
                     .getLastLocation()
@@ -202,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
 
         if (metodeSort.equals("nama")) {
+
+            // Mengambil data dari Firestore urut berdasarkan nama cagar
             cagarBudayaModels.clear();
             cagarRef
                     .orderBy("nama", Query.Direction.ASCENDING)
@@ -229,10 +244,12 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //            compareEveryCagarDistance();
 //
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
 //            setRecyclerView(sortedCagarBudayaModels);
 //            cagarBudayaAdapter.notifyDataSetChanged();
         } else {
+
+            // Mengambil data dari Firestore urut berdasarkan jumlahView dari cagar
             cagarBudayaModels.clear();
             cagarRef
                     .orderBy("jumlahView", Query.Direction.DESCENDING)
@@ -257,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateDistance(CagarBudayaModel cagarBudayaModel) {
+
+        // Menghitung jarak dari user ke cagar
         float[] result = new float[1];
         Location.distanceBetween(userLat, userLong,
                 Double.parseDouble(cagarBudayaModel.getLatitude()),

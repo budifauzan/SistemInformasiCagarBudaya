@@ -53,6 +53,7 @@ public class MapsActivity extends AppCompatActivity {
     public void onMapReady(GoogleMap googleMap) {
         Intent intent = getIntent();
         CagarBudayaModel cagarBudayaModel = intent.getParcelableExtra("cagarBudayaModel");
+
         // Tambahkan marker dan pindahkan kamera ke marker
         LatLng lokasiCagar = new LatLng(Double.parseDouble(cagarBudayaModel.getLatitude()),
                 Double.parseDouble(cagarBudayaModel.getLongitude()));

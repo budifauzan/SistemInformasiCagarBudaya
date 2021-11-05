@@ -31,6 +31,7 @@ public class VRActivity extends Activity {
     }
 
     private void setWebView() {
+
         // Supaya bisa menjalankan JavaScript
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -44,10 +45,12 @@ public class VRActivity extends Activity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
             // Kalau URL mengandung budifauzan.github.io, maka akan ditampilkan di webView
             if ("budifauzan.github.io".equals(Uri.parse(url).getHost())) {
                 return false;
             }
+
             // Kalau URL tidak mengandung budifauzan.github.io, maka akan keluar ke menu utama
             startActivity(new Intent(VRActivity.this, MainActivity.class));
             return true;

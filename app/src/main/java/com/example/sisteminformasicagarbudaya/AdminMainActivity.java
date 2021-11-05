@@ -56,12 +56,18 @@ public class AdminMainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Mengambil filePath dari file yang dipilih
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             uri = data.getData();
+
+            // Mengambil nama file
             File file = new File(uri.toString());
             tvNamaFile.setText(file.getName());
             try {
+
+                // Mengambil file foto dan menampilkan ke thumbnail
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imgThumbnail.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -100,6 +106,8 @@ public class AdminMainActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.setCancelable(false);
             progressDialog.show();
+
+            // Upload file foto ke Firebase Storage
             StorageReference reference = storageReference.child("Thumbnails/" + UUID.randomUUID());
             reference.putFile(uri)
                     .addOnSuccessListener(taskSnapshot -> getDownloadURL(reference))
@@ -116,6 +124,8 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void getDownloadURL(StorageReference storageReference) {
+
+        // Mengambil download URL dari file yang telah di upload
         storageReference.getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     downloadURL = uri.toString();
@@ -132,6 +142,7 @@ public class AdminMainActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        // Membuat objek cagarBudayaModel berisikan data-data yang sudah diinput
         CagarBudayaModel cagarBudayaModel = new CagarBudayaModel(
                 edtNamaCagar.getText().toString(),
                 edtDetail.getText().toString(),
@@ -141,6 +152,8 @@ public class AdminMainActivity extends AppCompatActivity {
                 edtLongitude.getText().toString(),
                 edtLinkVR.getText().toString()
         );
+
+        // Menambahkan cagarBudayaModel ke Firestore
         cagarRef.add(cagarBudayaModel)
                 .addOnSuccessListener(documentReference -> {
                     progressDialog.dismiss();
