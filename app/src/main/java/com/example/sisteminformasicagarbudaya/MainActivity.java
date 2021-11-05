@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -50,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private final CollectionReference cagarRef = firebaseFirestore.collection("CagarBudaya");
 
     private final ArrayList<CagarBudayaModel> cagarBudayaModels = new ArrayList<>();
-    private final ArrayList<JarakCagarModel> jarakCagarModels = new ArrayList<>();
-    private final ArrayList<CagarBudayaModel> sortedCagarBudayaModels = new ArrayList<>();
 
     private boolean doubleBackToExitPressedOnce = false;
     private boolean firstClick = true;
@@ -64,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initiateViews();
         setOnClick();
+        setRecyclerView();
         customSpinner();
         getCurrentLocation();
     }
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setRecyclerView(ArrayList<CagarBudayaModel> cagarBudayaModels) {
+    private void setRecyclerView() {
         cagarBudayaAdapter = new CagarBudayaAdapter(this, cagarBudayaModels);
         rvCagarBudaya.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvCagarBudaya.setAdapter(cagarBudayaAdapter);
@@ -228,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
                             cagarBudayaModels.add(cagarBudayaModel);
                             calculateDistance(cagarBudayaModel);
                         }
+
                         progressDialog.dismiss();
-                        setRecyclerView(cagarBudayaModels);
                         cagarBudayaAdapter.notifyDataSetChanged();
                     })
                     .addOnFailureListener(e -> {
@@ -237,16 +235,10 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     });
         } else if (metodeSort.equals("lokasi")) {
-//            jarakCagarModels.clear();
-//            sortedCagarBudayaModels.clear();
-//            for (int i = 0; i < cagarBudayaModels.size(); i++) {
-//                jarakCagarModels.add(new JarakCagarModel(cagarBudayaModels.get(i).getDocId()));
-//            }
-//            compareEveryCagarDistance();
-//
+            compareEveryCagarDistance();
+                        
             progressDialog.dismiss();
-//            setRecyclerView(sortedCagarBudayaModels);
-//            cagarBudayaAdapter.notifyDataSetChanged();
+            cagarBudayaAdapter.notifyDataSetChanged();
         } else {
 
             // Mengambil data dari Firestore urut berdasarkan jumlahView dari cagar
@@ -261,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
                             cagarBudayaModels.add(cagarBudayaModel);
                             calculateDistance(cagarBudayaModel);
                         }
+
                         progressDialog.dismiss();
-                        setRecyclerView(cagarBudayaModels);
                         cagarBudayaAdapter.notifyDataSetChanged();
                     })
                     .addOnFailureListener(e -> {
@@ -285,34 +277,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void compareEveryCagarDistance() {
-        JarakCagarModel jarakCagarModelTemp = new JarakCagarModel();
-        for (int i = 1; i < cagarBudayaModels.size(); i++) {
-            if (cagarBudayaModels.get(i).getJarakDariUser() < cagarBudayaModels.get(i - 1).getJarakDariUser()) {
-                jarakCagarModelTemp.setDocId(jarakCagarModels.get(i - 1).getDocId());
-                jarakCagarModels.get(i - 1).setDocId(jarakCagarModels.get(i).getDocId());
-                jarakCagarModels.get(i).setDocId(jarakCagarModelTemp.getDocId());
+
+        // Urutkan jarak cagar menggunakan Bubble Sort
+        CagarBudayaModel cagarModelTemp;
+        for (int i = 0; i < cagarBudayaModels.size(); i++) {
+            for (int j = 1; j < cagarBudayaModels.size() - i; j++) {
+                if (cagarBudayaModels.get(j - 1).getJarakDariUser() > cagarBudayaModels.get(j).getJarakDariUser()) {
+                    cagarModelTemp = cagarBudayaModels.get(j - 1);
+                    cagarBudayaModels.set(j - 1, cagarBudayaModels.get(j));
+                    cagarBudayaModels.set(j, cagarModelTemp);
+                }
             }
         }
-        getSortedCagar();
     }
 
-    private void getSortedCagar() {
-        for (int i = 0; i < jarakCagarModels.size(); i++) {
-            DocumentReference cagarDocRef = firebaseFirestore
-                    .collection("CagarBudaya")
-                    .document(jarakCagarModels.get(i).getDocId());
-            cagarDocRef
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        sortedCagarBudayaModels.add(documentSnapshot.toObject(CagarBudayaModel.class));
-                    })
-                    .addOnFailureListener(e -> {
-                        progressDialog.dismiss();
-                        Log.d(TAG, e.toString());
-                    });
-        }
-
-
-    }
 }
 
