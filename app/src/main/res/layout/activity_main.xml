@@ -11,7 +11,10 @@
         android:id="@+id/navbar"
         layout="@layout/nav_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/navbar_height"/>
+        android:layout_height="@dimen/navbar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
