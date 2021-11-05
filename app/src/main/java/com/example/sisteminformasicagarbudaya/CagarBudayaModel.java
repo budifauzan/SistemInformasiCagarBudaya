@@ -7,7 +7,7 @@ import com.google.firebase.firestore.Exclude;
 
 public class CagarBudayaModel implements Parcelable {
     private String docId, nama, detail, thumbnailUrl, latitude, longitude, linkVR;
-    private int jumlahView;
+    private int jumlahView, jarakDariUser;
 
     public CagarBudayaModel() {
     }
@@ -32,6 +32,7 @@ public class CagarBudayaModel implements Parcelable {
         latitude = in.readString();
         longitude = in.readString();
         linkVR = in.readString();
+        jarakDariUser = in.readInt();
     }
 
     public static final Creator<CagarBudayaModel> CREATOR = new Creator<CagarBudayaModel>() {
@@ -87,6 +88,15 @@ public class CagarBudayaModel implements Parcelable {
         return linkVR;
     }
 
+    @Exclude
+    public int getJarakDariUser() {
+        return jarakDariUser;
+    }
+
+    public void setJarakDariUser(int jarakDariUser) {
+        this.jarakDariUser = jarakDariUser;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -102,5 +112,6 @@ public class CagarBudayaModel implements Parcelable {
         dest.writeString(latitude);
         dest.writeString(longitude);
         dest.writeString(linkVR);
+        dest.writeInt(jarakDariUser);
     }
 }

@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CagarBudayaModel> cagarBudayaModels;
     private boolean doubleBackToExitPressedOnce = false;
     private boolean firstClick = true;
-    private int selected = 0;
-    private String userLat, userLong;
+    private int selected = -1;
+    private double userLat, userLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +67,29 @@ public class MainActivity extends AppCompatActivity {
         setOnClick();
         setRecyclerView();
         customSpinner();
-        getDataCagar();
+        getCurrentLocation();
+        getDataCagar("nama");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        customSpinner();
-        spnFilter.setSelection(selected);
+        if (selected == -1) {
+            getDataCagar("nama");
+        } else {
+            spnFilter.setSelection(selected);
+            switch (selected) {
+                case 0:
+                    getDataCagar("nama");
+                    break;
+                case 1:
+                    getDataCagar("lokasi");
+                    break;
+                case 2:
+                    getDataCagar("jumlahView");
+                    break;
+            }
+        }
     }
 
     @Override
@@ -132,35 +147,6 @@ public class MainActivity extends AppCompatActivity {
         rvCagarBudaya.setAdapter(cagarBudayaAdapter);
     }
 
-    private void getDataCagar() {
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        cagarBudayaModels.clear();
-        cagarRef
-                .orderBy("nama", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                            CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
-                            cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
-                            cagarBudayaModels.add(cagarBudayaModel);
-                        }
-                        progressDialog.dismiss();
-                        cagarBudayaAdapter.notifyDataSetChanged();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Log.d(TAG, e.toString());
-                    }
-                });
-    }
-
     private void customSpinner() {
         String parameterSort[] = {"Nama", "Lokasi terdekat", "Dilihat paling banyak"};
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
@@ -187,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 if (firstClick) {
                     firstClick = false;
                 } else if (position == 0) {
-                    getDataCagar();
+                    getDataCagar("nama");
                     selected = 0;
                 } else if (position == 1) {
-                    getCurrentLocation();
+                    getDataCagar("lokasi");
                     selected = 1;
                 } else {
-                    getDataCagarBerdasarkanJumlahView();
+                    getDataCagar("jumlahView");
                     selected = 2;
                 }
             }
@@ -202,35 +188,6 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
-
-    private void getDataCagarBerdasarkanJumlahView() {
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        cagarBudayaModels.clear();
-        cagarRef
-                .orderBy("jumlahView", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                            CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
-                            cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
-                            cagarBudayaModels.add(cagarBudayaModel);
-                        }
-                        progressDialog.dismiss();
-                        cagarBudayaAdapter.notifyDataSetChanged();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Log.d(TAG, e.toString());
-                    }
-                });
     }
 
     private void getCurrentLocation() {
@@ -246,12 +203,81 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                userLat = String.valueOf(location.getLatitude());
-                                userLong = String.valueOf(location.getLongitude());
-                                Toast.makeText(MainActivity.this, "Lat : " + userLat + " Long : " + userLong, Toast.LENGTH_LONG).show();
+                                userLat = location.getLatitude();
+                                userLong = location.getLongitude();
                             }
                         }
                     });
         }
     }
+
+    private void getDataCagar(String metodeSort) {
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        cagarBudayaModels.clear();
+        if (metodeSort.equals("nama")) {
+            cagarRef
+                    .orderBy("nama", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                                CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
+                                cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
+                                cagarBudayaModels.add(cagarBudayaModel);
+                                calculateDistance(cagarBudayaModel);
+                            }
+                            progressDialog.dismiss();
+                            cagarBudayaAdapter.notifyDataSetChanged();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Log.d(TAG, e.toString());
+                        }
+                    });
+        } else if (metodeSort.equals("lokasi")) {
+            progressDialog.dismiss();
+            Toast.makeText(MainActivity.this, "Belum selesai gan", Toast.LENGTH_SHORT).show();
+        } else {
+            cagarRef
+                    .orderBy("jumlahView", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                                CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
+                                cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
+                                cagarBudayaModels.add(cagarBudayaModel);
+                                calculateDistance(cagarBudayaModel);
+                            }
+                            progressDialog.dismiss();
+                            cagarBudayaAdapter.notifyDataSetChanged();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Log.d(TAG, e.toString());
+                        }
+                    });
+        }
+
+    }
+
+    private void calculateDistance(CagarBudayaModel cagarBudayaModel) {
+        float[] result = new float[1];
+        Location.distanceBetween(userLat, userLong,
+                Double.parseDouble(cagarBudayaModel.getLatitude()),
+                Double.parseDouble(cagarBudayaModel.getLongitude()), result);
+        cagarBudayaModel.setJarakDariUser((int) result[0]);
+    }
 }
+

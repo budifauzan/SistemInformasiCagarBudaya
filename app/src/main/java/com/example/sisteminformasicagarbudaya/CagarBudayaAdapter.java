@@ -38,7 +38,7 @@ public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.
         CagarBudayaModel cagarBudayaModel = models.get(position);
         holder.tvNama.setText(cagarBudayaModel.getNama());
         //nanti jarak nya dihitung dulu baru ditampilkan
-        holder.tvJarak.setText("300m");
+        holder.tvJarak.setText(cagarBudayaModel.getJarakDariUser() + "m");
         Glide.with(context).load(cagarBudayaModel.getThumbnailUrl()).into(holder.imgThumbnail);
         holder.tvJumlahView.setText(cagarBudayaModel.getJumlahView() + " x dilihat");
         holder.clContainer.setOnClickListener(new View.OnClickListener() {
