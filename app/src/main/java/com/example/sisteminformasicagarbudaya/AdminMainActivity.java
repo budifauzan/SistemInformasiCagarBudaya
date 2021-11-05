@@ -7,26 +7,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,11 +39,11 @@ public class AdminMainActivity extends AppCompatActivity {
     private Uri uri;
     private String downloadURL;
 
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private CollectionReference cagarRef = firebaseFirestore.collection("CagarBudaya");
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final CollectionReference cagarRef = firebaseFirestore.collection("CagarBudaya");
 
-    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-    private StorageReference storageReference = firebaseStorage.getReference();
+    private final FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private final StorageReference storageReference = firebaseStorage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,77 +84,50 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        btnUploadThumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pilihFoto();
-            }
-        });
-        btnTambahkan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadFoto();
-            }
-        });
+        btnUploadThumbnail.setOnClickListener(v -> chooseThumbnail());
+        btnTambahkan.setOnClickListener(v -> uploadThumbnail());
     }
 
-    private void pilihFoto() {
+    private void chooseThumbnail() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Pilih Foto"), PICK_IMAGE_REQUEST);
     }
 
-    private void uploadFoto() {
+    private void uploadThumbnail() {
         if (uri != null) {
             progressDialog.setTitle("Uploading...");
             progressDialog.setCancelable(false);
             progressDialog.show();
             StorageReference reference = storageReference.child("Thumbnails/" + UUID.randomUUID());
             reference.putFile(uri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            getDownloadURL(reference);
-                        }
+                    .addOnSuccessListener(taskSnapshot -> getDownloadURL(reference))
+                    .addOnFailureListener(e -> {
+                        Log.d(TAG, e.toString());
+                        progressDialog.dismiss();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, e.toString());
-                            progressDialog.dismiss();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            double progress = (100.0 * snapshot.getBytesTransferred() / snapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
+                    .addOnProgressListener(snapshot -> {
+                        double progress = (100.0 * snapshot.getBytesTransferred() / snapshot
+                                .getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
                     });
         }
     }
 
     private void getDownloadURL(StorageReference storageReference) {
         storageReference.getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        downloadURL = uri.toString();
-                        tambahCagarBudaya(downloadURL);
-                    }
+                .addOnSuccessListener(uri -> {
+                    downloadURL = uri.toString();
+                    addCagarBudaya(downloadURL);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                        progressDialog.dismiss();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.d(TAG, e.toString());
+                    progressDialog.dismiss();
                 });
     }
 
-    private void tambahCagarBudaya(String downloadURL) {
+    private void addCagarBudaya(String downloadURL) {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -176,21 +142,15 @@ public class AdminMainActivity extends AppCompatActivity {
                 edtLinkVR.getText().toString()
         );
         cagarRef.add(cagarBudayaModel)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        progressDialog.dismiss();
-                        Toast.makeText(AdminMainActivity.this, "Data berhasil ditambahkan!", Toast.LENGTH_SHORT).show();
-                        finish();
-                        startActivity(getIntent());
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(AdminMainActivity.this, "Data berhasil ditambahkan!", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                        progressDialog.dismiss();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.d(TAG, e.toString());
+                    progressDialog.dismiss();
                 });
     }
 }

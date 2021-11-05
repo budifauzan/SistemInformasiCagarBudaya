@@ -17,8 +17,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.ViewHolder> {
-    private Context context;
-    private ArrayList<CagarBudayaModel> models;
+    private final Context context;
+    private final ArrayList<CagarBudayaModel> models;
 
     public CagarBudayaAdapter(Context context, ArrayList<CagarBudayaModel> models) {
         this.context = context;
@@ -30,7 +30,7 @@ public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.
     public CagarBudayaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.card_cagar_budaya, parent, false);
-        return new CagarBudayaAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -40,13 +40,10 @@ public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.
         holder.tvJarak.setText(String.format("%,d", cagarBudayaModel.getJarakDariUser()) + "m");
         Glide.with(context).load(cagarBudayaModel.getThumbnailUrl()).into(holder.imgThumbnail);
         holder.tvJumlahView.setText(String.format("%,d", cagarBudayaModel.getJumlahView()) + " x dilihat");
-        holder.clContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DetailCagarActivity.class);
-                intent.putExtra("cagarBudayaModel", cagarBudayaModel);
-                context.startActivity(intent);
-            }
+        holder.clContainer.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailCagarActivity.class);
+            intent.putExtra("cagarBudayaModel", cagarBudayaModel);
+            context.startActivity(intent);
         });
     }
 
@@ -55,10 +52,12 @@ public class CagarBudayaAdapter extends RecyclerView.Adapter<CagarBudayaAdapter.
         return models.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvNama, tvJarak, tvJumlahView;
-        private ImageView imgThumbnail;
-        private ConstraintLayout clContainer;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvNama;
+        private final TextView tvJarak;
+        private final TextView tvJumlahView;
+        private final ImageView imgThumbnail;
+        private final ConstraintLayout clContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

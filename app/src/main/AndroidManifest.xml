@@ -19,7 +19,7 @@
         <activity
             android:name=".AdminMainActivity"
             android:exported="true"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".DetailCagarActivity"
             android:exported="false"

@@ -8,22 +8,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailCagarActivity extends AppCompatActivity {
-    private ImageView imgThumbnail, imgNavBarBack;
-    private TextView tvNavTitle, tvNamaCagar, tvDetail;
+    private ImageView imgThumbnail;
+    private TextView tvNamaCagar;
+    private TextView tvDetail;
     private Button btnMasukModeVR, btnLokasiCagar;
     private ConstraintLayout clNavBarBack;
 
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     private int jumlahView;
     private String docId;
@@ -38,12 +37,12 @@ public class DetailCagarActivity extends AppCompatActivity {
         initiateViews();
         setViewFromIntent();
         setOnClick();
-        tambahJumlahView();
+        increaseJumlahView();
     }
 
     private void initiateViews() {
         imgThumbnail = findViewById(R.id.img_detail_cagar_thumbnail);
-        tvNavTitle = findViewById(R.id.tv_navbar_title);
+        TextView tvNavTitle = findViewById(R.id.tv_navbar_title);
         tvNavTitle.setText("Detail Cagar Budaya");
         tvNamaCagar = findViewById(R.id.tv_detail_cagar_nama_cagar);
         tvDetail = findViewById(R.id.tv_detail_cagar_detail);
@@ -51,7 +50,7 @@ public class DetailCagarActivity extends AppCompatActivity {
         btnLokasiCagar = findViewById(R.id.btn_detail_cagar_lokasi);
         clNavBarBack = findViewById(R.id.cl_navbar_back);
         clNavBarBack.setVisibility(View.VISIBLE);
-        imgNavBarBack = findViewById(R.id.img_navbar_back);
+        ImageView imgNavBarBack = findViewById(R.id.img_navbar_back);
         imgNavBarBack.setImageResource(R.drawable.ic_baseline_arrow_back_24);
     }
 
@@ -68,41 +67,25 @@ public class DetailCagarActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        clNavBarBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        clNavBarBack.setOnClickListener(view -> finish());
+
+        btnMasukModeVR.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailCagarActivity.this, VRActivity.class);
+            intent.putExtra("linkVR", cagarBudayaModel.getLinkVR());
+            startActivity(intent);
         });
 
-        btnMasukModeVR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailCagarActivity.this, VRActivity.class);
-                intent.putExtra("linkVR", cagarBudayaModel.getLinkVR());
-                startActivity(intent);
-            }
-        });
-
-        btnLokasiCagar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailCagarActivity.this, MapsActivity.class);
-                intent.putExtra("cagarBudayaModel", cagarBudayaModel);
-                startActivity(intent);
-            }
+        btnLokasiCagar.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailCagarActivity.this, MapsActivity.class);
+            intent.putExtra("cagarBudayaModel", cagarBudayaModel);
+            startActivity(intent);
         });
     }
 
-    private void tambahJumlahView() {
+    private void increaseJumlahView() {
         jumlahView++;
         DocumentReference cagarRef = firebaseFirestore.collection("CagarBudaya").document(docId);
         cagarRef.update("jumlahView", jumlahView)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                    }
-                });
+                .addOnFailureListener(e -> Log.d(TAG, e.toString()));
     }
 }

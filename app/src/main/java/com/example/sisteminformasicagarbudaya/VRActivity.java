@@ -44,11 +44,11 @@ public class VRActivity extends Activity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // Kalau URL mengandung budifauzan.github.io, maka akan ditampilkan di webView
             if ("budifauzan.github.io".equals(Uri.parse(url).getHost())) {
-                // This is my website, so do not override; let my WebView load the page
                 return false;
             }
-            // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+            // Kalau URL tidak mengandung budifauzan.github.io, maka akan keluar ke menu utama
             startActivity(new Intent(VRActivity.this, MainActivity.class));
             return true;
         }

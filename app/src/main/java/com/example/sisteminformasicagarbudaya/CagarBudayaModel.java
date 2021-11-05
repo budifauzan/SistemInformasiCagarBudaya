@@ -68,10 +68,6 @@ public class CagarBudayaModel implements Parcelable {
         return jumlahView;
     }
 
-    public void setJumlahView(int jumlahView) {
-        this.jumlahView = jumlahView;
-    }
-
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }

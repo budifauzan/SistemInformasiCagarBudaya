@@ -17,11 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AppCompatActivity {
 
-    private ImageView imgNavBarBack;
-    private TextView tvNavTitle;
     private ConstraintLayout clNavBarBack;
-
-    private GoogleMap mGoogleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +29,16 @@ public class MapsActivity extends AppCompatActivity {
     }
 
     private void initiateViews() {
-        tvNavTitle = findViewById(R.id.tv_navbar_title);
+        TextView tvNavTitle = findViewById(R.id.tv_navbar_title);
         tvNavTitle.setText("Lokasi Cagar Budaya");
         clNavBarBack = findViewById(R.id.cl_navbar_back);
         clNavBarBack.setVisibility(View.VISIBLE);
-        imgNavBarBack = findViewById(R.id.img_navbar_back);
+        ImageView imgNavBarBack = findViewById(R.id.img_navbar_back);
         imgNavBarBack.setImageResource(R.drawable.ic_baseline_arrow_back_24);
     }
 
     private void setOnClick() {
-        clNavBarBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        clNavBarBack.setOnClickListener(view -> finish());
     }
 
     private void setMapsFragment() {
@@ -62,13 +53,12 @@ public class MapsActivity extends AppCompatActivity {
     public void onMapReady(GoogleMap googleMap) {
         Intent intent = getIntent();
         CagarBudayaModel cagarBudayaModel = intent.getParcelableExtra("cagarBudayaModel");
-        mGoogleMap = googleMap;
         // Tambahkan marker dan pindahkan kamera ke marker
         LatLng lokasiCagar = new LatLng(Double.parseDouble(cagarBudayaModel.getLatitude()),
                 Double.parseDouble(cagarBudayaModel.getLongitude()));
-        mGoogleMap.addMarker(new MarkerOptions()
+        googleMap.addMarker(new MarkerOptions()
                 .position(lokasiCagar)
                 .title(cagarBudayaModel.getNama()));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokasiCagar, 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokasiCagar, 12));
     }
 }

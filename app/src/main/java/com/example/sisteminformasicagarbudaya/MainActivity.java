@@ -27,13 +27,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -42,18 +40,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ConstraintLayout clNavbarFilter, clFilterContainer;
-    private TextView tvNavTitle;
-    private ImageView imgNavBarFilter;
     private ProgressDialog progressDialog;
     private RecyclerView rvCagarBudaya;
     private Spinner spnFilter;
 
     private CagarBudayaAdapter cagarBudayaAdapter;
 
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private CollectionReference cagarRef = firebaseFirestore.collection("CagarBudaya");
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final CollectionReference cagarRef = firebaseFirestore.collection("CagarBudaya");
 
-    private ArrayList<CagarBudayaModel> cagarBudayaModels;
+    private final ArrayList<CagarBudayaModel> cagarBudayaModels = new ArrayList<>();
+    private final ArrayList<JarakCagarModel> jarakCagarModels = new ArrayList<>();
+    private final ArrayList<CagarBudayaModel> sortedCagarBudayaModels = new ArrayList<>();
+
     private boolean doubleBackToExitPressedOnce = false;
     private boolean firstClick = true;
     private int selected = -1;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initiateViews();
         setOnClick();
-        setRecyclerView();
         customSpinner();
         getCurrentLocation();
     }
@@ -105,21 +103,16 @@ public class MainActivity extends AppCompatActivity {
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
     private void initiateViews() {
         clNavbarFilter = findViewById(R.id.cl_navbar_filter);
         clNavbarFilter.setVisibility(View.VISIBLE);
-        imgNavBarFilter = findViewById(R.id.img_navbar_filter);
+        ImageView imgNavBarFilter = findViewById(R.id.img_navbar_filter);
         imgNavBarFilter.setImageResource(R.drawable.ic_baseline_filter_alt_24);
         clFilterContainer = findViewById(R.id.cl_main_filter_container);
-        tvNavTitle = findViewById(R.id.tv_navbar_title);
+        TextView tvNavTitle = findViewById(R.id.tv_navbar_title);
         tvNavTitle.setText("Daftar Cagar Budaya");
         rvCagarBudaya = findViewById(R.id.rv_main_cagar_budaya);
         spnFilter = findViewById(R.id.spn_main_filter);
@@ -127,27 +120,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        clNavbarFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clFilterContainer.getVisibility() == View.GONE) {
-                    clFilterContainer.setVisibility(View.VISIBLE);
-                } else {
-                    clFilterContainer.setVisibility(View.GONE);
-                }
+        clNavbarFilter.setOnClickListener(v -> {
+            if (clFilterContainer.getVisibility() == View.GONE) {
+                clFilterContainer.setVisibility(View.VISIBLE);
+            } else {
+                clFilterContainer.setVisibility(View.GONE);
             }
         });
     }
 
-    private void setRecyclerView() {
-        cagarBudayaModels = new ArrayList<>();
+    private void setRecyclerView(ArrayList<CagarBudayaModel> cagarBudayaModels) {
         cagarBudayaAdapter = new CagarBudayaAdapter(this, cagarBudayaModels);
         rvCagarBudaya.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rvCagarBudaya.setAdapter(cagarBudayaAdapter);
     }
 
     private void customSpinner() {
-        String parameterSort[] = {"Nama", "Lokasi terdekat", "Dilihat paling banyak"};
+        String[] parameterSort = {"Nama", "Lokasi terdekat", "Dilihat paling banyak"};
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 this, R.layout.support_simple_spinner_dropdown_item, parameterSort) {
             @Override
@@ -157,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
+                                        @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 tv.setTextColor(Color.BLACK);
@@ -198,13 +187,10 @@ public class MainActivity extends AppCompatActivity {
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
             fusedLocationProviderClient
                     .getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                userLat = location.getLatitude();
-                                userLong = location.getLongitude();
-                            }
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            userLat = location.getLatitude();
+                            userLong = location.getLongitude();
                         }
                     });
         }
@@ -215,57 +201,56 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        cagarBudayaModels.clear();
         if (metodeSort.equals("nama")) {
+            cagarBudayaModels.clear();
             cagarRef
                     .orderBy("nama", Query.Direction.ASCENDING)
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                                CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
-                                cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
-                                cagarBudayaModels.add(cagarBudayaModel);
-                                calculateDistance(cagarBudayaModel);
-                            }
-                            progressDialog.dismiss();
-                            cagarBudayaAdapter.notifyDataSetChanged();
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                            CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
+                            cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
+                            cagarBudayaModels.add(cagarBudayaModel);
+                            calculateDistance(cagarBudayaModel);
                         }
+                        progressDialog.dismiss();
+                        setRecyclerView(cagarBudayaModels);
+                        cagarBudayaAdapter.notifyDataSetChanged();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Log.d(TAG, e.toString());
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Log.d(TAG, e.toString());
                     });
         } else if (metodeSort.equals("lokasi")) {
-            progressDialog.dismiss();
-            Toast.makeText(MainActivity.this, "Belum selesai gan", Toast.LENGTH_SHORT).show();
+//            jarakCagarModels.clear();
+//            sortedCagarBudayaModels.clear();
+//            for (int i = 0; i < cagarBudayaModels.size(); i++) {
+//                jarakCagarModels.add(new JarakCagarModel(cagarBudayaModels.get(i).getDocId()));
+//            }
+//            compareEveryCagarDistance();
+//
+//            progressDialog.dismiss();
+//            setRecyclerView(sortedCagarBudayaModels);
+//            cagarBudayaAdapter.notifyDataSetChanged();
         } else {
+            cagarBudayaModels.clear();
             cagarRef
                     .orderBy("jumlahView", Query.Direction.DESCENDING)
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
-                                CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
-                                cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
-                                cagarBudayaModels.add(cagarBudayaModel);
-                                calculateDistance(cagarBudayaModel);
-                            }
-                            progressDialog.dismiss();
-                            cagarBudayaAdapter.notifyDataSetChanged();
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                            CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
+                            cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
+                            cagarBudayaModels.add(cagarBudayaModel);
+                            calculateDistance(cagarBudayaModel);
                         }
+                        progressDialog.dismiss();
+                        setRecyclerView(cagarBudayaModels);
+                        cagarBudayaAdapter.notifyDataSetChanged();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Log.d(TAG, e.toString());
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Log.d(TAG, e.toString());
                     });
         }
 
@@ -276,7 +261,39 @@ public class MainActivity extends AppCompatActivity {
         Location.distanceBetween(userLat, userLong,
                 Double.parseDouble(cagarBudayaModel.getLatitude()),
                 Double.parseDouble(cagarBudayaModel.getLongitude()), result);
+
         cagarBudayaModel.setJarakDariUser((int) result[0]);
+    }
+
+    private void compareEveryCagarDistance() {
+        JarakCagarModel jarakCagarModelTemp = new JarakCagarModel();
+        for (int i = 1; i < cagarBudayaModels.size(); i++) {
+            if (cagarBudayaModels.get(i).getJarakDariUser() < cagarBudayaModels.get(i - 1).getJarakDariUser()) {
+                jarakCagarModelTemp.setDocId(jarakCagarModels.get(i - 1).getDocId());
+                jarakCagarModels.get(i - 1).setDocId(jarakCagarModels.get(i).getDocId());
+                jarakCagarModels.get(i).setDocId(jarakCagarModelTemp.getDocId());
+            }
+        }
+        getSortedCagar();
+    }
+
+    private void getSortedCagar() {
+        for (int i = 0; i < jarakCagarModels.size(); i++) {
+            DocumentReference cagarDocRef = firebaseFirestore
+                    .collection("CagarBudaya")
+                    .document(jarakCagarModels.get(i).getDocId());
+            cagarDocRef
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        sortedCagarBudayaModels.add(documentSnapshot.toObject(CagarBudayaModel.class));
+                    })
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Log.d(TAG, e.toString());
+                    });
+        }
+
+
     }
 }
 
