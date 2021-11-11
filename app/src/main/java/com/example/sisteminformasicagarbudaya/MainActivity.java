@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void customSpinner() {
-        String[] parameterSort = {"Nama", "Lokasi terdekat", "Dilihat paling banyak"};
+        String[] parameterSort = {"Nama A-Z", "Lokasi terdekat", "Dilihat paling banyak"};
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 this, R.layout.support_simple_spinner_dropdown_item, parameterSort) {
             @Override
@@ -235,10 +235,27 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     });
         } else if (metodeSort.equals("lokasi")) {
-            compareEveryCagarDistance();
-                        
-            progressDialog.dismiss();
-            cagarBudayaAdapter.notifyDataSetChanged();
+
+            // Mengambil data cagar dari Firestore
+            cagarBudayaModels.clear();
+            cagarRef
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : queryDocumentSnapshots) {
+                            CagarBudayaModel cagarBudayaModel = queryDocumentSnapshot.toObject(CagarBudayaModel.class);
+                            cagarBudayaModel.setDocId(queryDocumentSnapshot.getId());
+                            cagarBudayaModels.add(cagarBudayaModel);
+                            calculateDistance(cagarBudayaModel);
+                        }
+                        compareEveryCagarDistance();
+
+                        progressDialog.dismiss();
+                        cagarBudayaAdapter.notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Log.d(TAG, e.toString());
+                    });
         } else {
 
             // Mengambil data dari Firestore urut berdasarkan jumlahView dari cagar
