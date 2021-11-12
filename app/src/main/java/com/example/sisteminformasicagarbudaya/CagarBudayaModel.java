@@ -6,15 +6,16 @@ import android.os.Parcelable;
 import com.google.firebase.firestore.Exclude;
 
 public class CagarBudayaModel implements Parcelable {
-    private String docId, nama, detail, thumbnailUrl, latitude, longitude, linkVR;
+    private String docId, nama, alamat, detail, thumbnailUrl, latitude, longitude, linkVR;
     private int jumlahView, jarakDariUser;
 
     public CagarBudayaModel() {
     }
 
-    public CagarBudayaModel(String nama, String detail, int jumlahView,
+    public CagarBudayaModel(String nama, String alamat, String detail, int jumlahView,
                             String thumbnailUrl, String latitude, String longitude, String linkVR) {
         this.nama = nama;
+        this.alamat = alamat;
         this.detail = detail;
         this.jumlahView = jumlahView;
         this.thumbnailUrl = thumbnailUrl;
@@ -26,6 +27,7 @@ public class CagarBudayaModel implements Parcelable {
     protected CagarBudayaModel(Parcel in) {
         docId = in.readString();
         nama = in.readString();
+        alamat = in.readString();
         detail = in.readString();
         jumlahView = in.readInt();
         thumbnailUrl = in.readString();
@@ -58,6 +60,10 @@ public class CagarBudayaModel implements Parcelable {
 
     public String getNama() {
         return nama;
+    }
+
+    public String getAlamat() {
+        return alamat;
     }
 
     public String getDetail() {
@@ -102,6 +108,7 @@ public class CagarBudayaModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(docId);
         dest.writeString(nama);
+        dest.writeString(alamat);
         dest.writeString(detail);
         dest.writeInt(jumlahView);
         dest.writeString(thumbnailUrl);

@@ -23,6 +23,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/edt_admin_main_alamat"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Alamat"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_nama_cagar"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_nama_cagar"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_nama_cagar" />
+
+    <EditText
         android:id="@+id/edt_admin_main_detail"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="0dp"
@@ -32,9 +46,9 @@
         android:hint="Detail"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_nama_cagar"
-        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_nama_cagar"
-        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_nama_cagar" />
+        app:layout_constraintEnd_toEndOf="@+id/edt_admin_main_alamat"
+        app:layout_constraintStart_toStartOf="@+id/edt_admin_main_alamat"
+        app:layout_constraintTop_toBottomOf="@+id/edt_admin_main_alamat" />
 
     <EditText
         android:id="@+id/edt_admin_main_latitude"

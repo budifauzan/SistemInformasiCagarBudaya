@@ -17,8 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailCagarActivity extends AppCompatActivity {
     private ImageView imgThumbnail;
-    private TextView tvNamaCagar;
-    private TextView tvDetail;
+    private TextView tvNamaCagar, tvAlamat, tvDetail;
     private Button btnMasukModeVR, btnLokasiCagar;
     private ConstraintLayout clNavBarBack;
 
@@ -45,6 +44,7 @@ public class DetailCagarActivity extends AppCompatActivity {
         TextView tvNavTitle = findViewById(R.id.tv_navbar_title);
         tvNavTitle.setText("Detail Cagar Budaya");
         tvNamaCagar = findViewById(R.id.tv_detail_cagar_nama_cagar);
+        tvAlamat = findViewById(R.id.tv_detail_cagar_alamat);
         tvDetail = findViewById(R.id.tv_detail_cagar_detail);
         btnMasukModeVR = findViewById(R.id.btn_detail_cagar_masuk_mode_vr);
         btnLokasiCagar = findViewById(R.id.btn_detail_cagar_lokasi);
@@ -62,6 +62,7 @@ public class DetailCagarActivity extends AppCompatActivity {
         if (cagarBudayaModel != null) {
             Glide.with(this).load(cagarBudayaModel.getThumbnailUrl()).into(imgThumbnail);
             tvNamaCagar.setText(cagarBudayaModel.getNama());
+            tvAlamat.setText(cagarBudayaModel.getAlamat());
             tvDetail.setText(cagarBudayaModel.getDetail());
             jumlahView = cagarBudayaModel.getJumlahView();
             docId = cagarBudayaModel.getDocId();

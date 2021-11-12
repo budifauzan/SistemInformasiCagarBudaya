@@ -30,7 +30,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private static final String TAG = "AdminMainActivity";
     private final int PICK_IMAGE_REQUEST = 1;
 
-    private EditText edtNamaCagar, edtDetail, edtLatitude, edtLongitude, edtLinkVR;
+    private EditText edtNamaCagar, edtAlamat, edtDetail, edtLatitude, edtLongitude, edtLinkVR;
     private TextView tvNamaFile;
     private ImageView imgThumbnail;
     private Button btnUploadThumbnail, btnTambahkan;
@@ -78,6 +78,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private void initiateViews() {
         edtNamaCagar = findViewById(R.id.edt_admin_main_nama_cagar);
+        edtAlamat = findViewById(R.id.edt_admin_main_alamat);
         edtDetail = findViewById(R.id.edt_admin_main_detail);
         edtLatitude = findViewById(R.id.edt_admin_main_latitude);
         edtLongitude = findViewById(R.id.edt_admin_main_longitude);
@@ -145,13 +146,13 @@ public class AdminMainActivity extends AppCompatActivity {
         // Membuat objek cagarBudayaModel berisikan data-data yang sudah diinput
         CagarBudayaModel cagarBudayaModel = new CagarBudayaModel(
                 edtNamaCagar.getText().toString(),
+                edtAlamat.getText().toString(),
                 edtDetail.getText().toString(),
                 0,
                 downloadURL,
                 edtLatitude.getText().toString(),
                 edtLongitude.getText().toString(),
-                edtLinkVR.getText().toString()
-        );
+                edtLinkVR.getText().toString());
 
         // Menambahkan cagarBudayaModel ke Firestore
         cagarRef.add(cagarBudayaModel)
