@@ -37,6 +37,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final int RC_PERMISSION = 1;
 
     private ConstraintLayout clNavbarFilter, clFilterContainer;
     private ProgressDialog progressDialog;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setOnClick();
         setRecyclerView();
         customSpinner();
-        getCurrentLocation();
+        checkPermission();
     }
 
     @Override
@@ -106,6 +107,21 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == RC_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // Jika izin akses GPS diberikan, ambil lokasi user
+                getCurrentLocation();
+            } else {
+                Toast.makeText(MainActivity.this, "Izin akses GPS diperlukan", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void initiateViews() {
@@ -184,28 +200,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getCurrentLocation() {
-
+    private void checkPermission() {
         // Mengecek apakah izin untuk akses GPS sudah diberikan atau belum
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             // Meminta izin untuk akses GPS
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, RC_PERMISSION);
         } else {
 
-            // Mengambil lokasi dari user
-            FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-            fusedLocationProviderClient
-                    .getLastLocation()
-                    .addOnSuccessListener(this, location -> {
-                        if (location != null) {
-                            userLat = location.getLatitude();
-                            userLong = location.getLongitude();
-                        }
-                    });
+            // Kalau sudah diberikan, ambil lokasi user saat itu
+            getCurrentLocation();
         }
     }
+
+    private void getCurrentLocation() {
+        // Mengambil lokasi dari user
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient
+                .getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        userLat = location.getLatitude();
+                        userLong = location.getLongitude();
+                    }
+                });
+    }
+
 
     private void getDataCagar(String metodeSort) {
         progressDialog.setMessage("Loading...");

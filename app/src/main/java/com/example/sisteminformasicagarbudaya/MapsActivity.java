@@ -60,6 +60,6 @@ public class MapsActivity extends AppCompatActivity {
         googleMap.addMarker(new MarkerOptions()
                 .position(lokasiCagar)
                 .title(cagarBudayaModel.getNama()));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokasiCagar, 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lokasiCagar, 14));
     }
 }

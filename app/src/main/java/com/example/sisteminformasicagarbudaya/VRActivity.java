@@ -35,6 +35,7 @@ public class VRActivity extends Activity {
         // Supaya bisa menjalankan JavaScript
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
 
         // Supaya tidak keluar dari aplikasi saat mengunjungi URL yang sudah ditentukan
         webView.setWebViewClient(new MyWebViewClient());
@@ -51,8 +52,8 @@ public class VRActivity extends Activity {
                 return false;
             }
 
-            // Kalau URL tidak mengandung budifauzan.github.io, maka akan keluar ke menu utama
-            startActivity(new Intent(VRActivity.this, MainActivity.class));
+            // Kalau URL tidak mengandung budifauzan.github.io, maka akan keluar ke detail cagar
+           finish();
             return true;
         }
     }
