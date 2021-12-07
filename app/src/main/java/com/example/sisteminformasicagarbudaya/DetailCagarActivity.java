@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -73,9 +74,13 @@ public class DetailCagarActivity extends AppCompatActivity {
         clNavBarBack.setOnClickListener(view -> finish());
 
         btnMasukModeVR.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailCagarActivity.this, VRActivity.class);
-            intent.putExtra("linkVR", cagarBudayaModel.getLinkVR());
-            startActivity(intent);
+            if (cagarBudayaModel.getLinkVR().equals("")) {
+                Toast.makeText(DetailCagarActivity.this, "Mode VR dari cagar budaya akan segera ditambahkan, stay tune!", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(DetailCagarActivity.this, VRActivity.class);
+                intent.putExtra("linkVR", cagarBudayaModel.getLinkVR());
+                startActivity(intent);
+            }
         });
 
         btnLokasiCagar.setOnClickListener(v -> {
