@@ -3,7 +3,7 @@
     <dimen name="navbar_height">64dp</dimen>
     <dimen name="navbar_btn_height">40dp</dimen>
     <dimen name="navbar_btn_width">40dp</dimen>
-    <dimen name="navbar_icon_height">32dp</dimen>
-    <dimen name="navbar_icon_width">32dp</dimen>
+    <dimen name="navbar_icon_height">28dp</dimen>
+    <dimen name="navbar_icon_width">28dp</dimen>
 
 </resources>

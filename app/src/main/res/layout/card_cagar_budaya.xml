@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="24dp"
-    android:background="@color/white">
+    android:layout_marginBottom="16dp"
+    android:background="@color/card_color"
+    android:elevation="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_card_cagar_budaya_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,7 +30,7 @@
 
         <TextView
             android:id="@+id/tv_card_cagar_budaya_nama"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/Custom.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -44,7 +46,7 @@
 
         <TextView
             android:id="@+id/tv_card_cagar_budaya_jumlah_view"
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/Custom.Caption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="2389 x dilihat"
@@ -65,7 +67,7 @@
 
             <TextView
                 android:id="@+id/tv_card_cagar_budaya_jarak"
-                style="@style/TextAppearance.MaterialComponents.Body2"
+                style="@style/Custom.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

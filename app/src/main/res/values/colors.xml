@@ -3,7 +3,8 @@
     <color name="primary">#c5e1a5</color>
     <color name="primary_dark">#94af76</color>
     <color name="primary_light">#f8ffd7</color>
-    <color name="background_color">#fffffb</color>
+    <color name="background_color">#f1f8e9</color>
+    <color name="card_color">#dcedc8</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

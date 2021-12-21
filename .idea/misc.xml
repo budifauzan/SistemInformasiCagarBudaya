@@ -16,19 +16,19 @@
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/drawable/ic_baseline_remove_red_eye_24.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/drawable/tv_jarak_rounded_corner_background.xml" value="0.2212962962962963" />
-        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout-v26/activity_detail_cagar.xml" value="0.209375" />
+        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout-v26/activity_detail_cagar.xml" value="0.3249797898140663" />
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_admin_main.xml" value="0.33" />
-        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_detail_cagar.xml" value="0.25" />
-        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_detail_cagar.xml" value="0.33" />
+        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_main.xml" value="0.3988439306358382" />
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_maps.xml" value="0.209375" />
         <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/activity_v_r.xml" value="0.209375" />
-        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/card_cagar_budaya.xml" value="0.33" />
-        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/nav_bar.xml" value="0.22" />
+        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/card_cagar_budaya.xml" value="0.25" />
+        <entry key="..\:/Users/Mbuud/Documents/AndroidStudioProjects/SistemInformasiCagarBudaya/app/src/main/res/layout/nav_bar.xml" value="0.33" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
